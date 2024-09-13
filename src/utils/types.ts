@@ -1,6 +1,6 @@
 export interface IDistanceQuery {
-    lat1: number;
-    long1: number;
+    lat1: string;
+    long1: string;
     limit: number;
     type: string;
 }

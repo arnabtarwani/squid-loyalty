@@ -1,18 +1,10 @@
 import express, { Request, Response } from 'express';
 import { discoveryHandler } from './router';
-import Database from './db/database';
-
-export const pool = new Database();
 
 function main() {
     const app = express();
 
     app.use(express.json());
-
-    if (!pool) {
-        console.error("Database connection failed");
-        process.exit(1);
-    }
 
     app.get("/", (_req: Request, res: Response) => {
         res.send({

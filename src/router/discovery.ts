@@ -1,20 +1,14 @@
 import { Request, Response } from "express";
 import { calculateDistance } from "../utils/distance";
 import { IDistanceQuery, IDistanceDbRecord } from "../utils/types";
-import { pool } from "../server";
+import { pool } from "../db/database";
 
 export const discoveryHandler = async (req: Request, res: Response) => {
     try {
-        if (!pool) {
-            throw new Error("Database connection failed");
-        }
-
         const { url } = req
         const query = url.split("?")[1];
 
-        if (!query?.includes("lat1") || !query?.includes("long1") || !query?.includes("limit") || !query?.includes("type")) {
-            throw new Error(`${query} is not a valid query`);
-        }
+        console.log(query);
 
         const queryObject = query?.split("&").reduce((acc, cur) => {
             const [key, value] = cur.split("=");
@@ -25,20 +19,34 @@ export const discoveryHandler = async (req: Request, res: Response) => {
             // @ts-ignore
             acc[key] = value;
             return acc;
-        }, {} as IDistanceQuery);
+        }, {} as {
+            [key: string]: string;
+        });
+
+        console.log("QUERY", queryObject);
 
         let dbQuery = `SELECT * FROM businesses`;
-        let values: Array<IDistanceDbRecord> = [];
+        let values: Array<string> = [];
 
-        const rows = await pool.query(dbQuery, values)
+        if (queryObject?.type) {
+            dbQuery += ` WHERE type = $1`;
+            values.push(queryObject?.type);
+        }
 
-        const distance = rows.map((business: IDistanceDbRecord) => {
-            const distance = calculateDistance(Number(queryObject.lat1), Number(queryObject.long1), business.latitude, business.longitude);
+        const { rows } = await pool.query(dbQuery, values)
 
-            return { ...business, distance };
+        const businesses = rows.map((business: IDistanceDbRecord) => {
+            return {
+                ...business,
+                distance: calculateDistance(parseFloat(queryObject?.lat as string), parseFloat(queryObject?.long as string), business.latitude, business.longitude)
+            };
         }).sort((a, b) => a.distance - b.distance);
 
-        res.json({ distance });
+        if (queryObject?.limit) {
+            return res.json(businesses.slice(0, parseInt(queryObject.limit)));
+        }
+
+        res.json(businesses);
 
     } catch (error) {
         res.status(400).json({ error: error });

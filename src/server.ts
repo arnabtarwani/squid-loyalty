@@ -1,18 +1,30 @@
 import express, { Request, Response } from 'express';
-import { distanceHandler } from './router';
+import { discoveryHandler } from './router';
+import Database from './db/database';
 
-const app = express();
+export const pool = new Database();
 
-app.use(express.json());
+function main() {
+    const app = express();
 
-app.get("/", (_req: Request, res: Response) => {
-    res.send({
-        message: "Squid Loyalty Technical Test",
+    app.use(express.json());
+
+    if (!pool) {
+        console.error("Database connection failed");
+        process.exit(1);
+    }
+
+    app.get("/", (_req: Request, res: Response) => {
+        res.send({
+            message: "Squid Loyalty Technical Test",
+        });
     });
-});
 
-app.routes("/distance", distanceHandler);
+    app.get("/discovery", discoveryHandler);
 
-app.listen(4000, () => {
-    console.log("Server is running on port 4000");
-});
+    app.listen(4000, () => {
+        console.log("Server is running on port 4000");
+    });
+}
+
+main();

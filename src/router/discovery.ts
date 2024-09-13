@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
 import { calculateDistance } from "../utils/distance";
 import { IDistanceQuery, IDistanceDbRecord } from "../utils/types";
-import { pool } from "../db/database";
+import { pool } from "../server";
 
-export const distanceHandler = async (req: Request, res: Response) => {
+export const discoveryHandler = async (req: Request, res: Response) => {
     try {
+        if (!pool) {
+            throw new Error("Database connection failed");
+        }
+
         const { url } = req
         const query = url.split("?")[1];
 
@@ -26,7 +30,7 @@ export const distanceHandler = async (req: Request, res: Response) => {
         let dbQuery = `SELECT * FROM businesses`;
         let values: Array<IDistanceDbRecord> = [];
 
-        const { rows } = await pool.query(dbQuery, values)
+        const rows = await pool.query(dbQuery, values)
 
         const distance = rows.map((business: IDistanceDbRecord) => {
             const distance = calculateDistance(Number(queryObject.lat1), Number(queryObject.long1), business.latitude, business.longitude);

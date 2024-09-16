@@ -15,3 +15,8 @@ install:
 dev: 
 	@echo "Running the project..." && \
 	pnpm dev
+
+.PHONY:
+test: 
+	@echo "Running tests..." && \
+	pnpm test

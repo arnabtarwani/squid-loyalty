@@ -10,12 +10,6 @@ services:
     networks:
       - squid_network
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "user", "-d", "postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
 
 networks:
   squid_network:

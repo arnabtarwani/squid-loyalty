@@ -7,9 +7,9 @@ install:
 	direnv allow && \
 	cp .env.example .env && \
 	docker compose up -d 
-	migrate -database ${POSTGRESQL_URL} -path ${DIR}/db/migrations up
 	@echo "Installing dependencies..." && \
 	pnpm install
+	migrate -database ${POSTGRESQL_URL} -path ${DIR}/db/migrations up
 
 .PHONY:
 dev: 

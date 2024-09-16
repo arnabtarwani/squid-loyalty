@@ -18,18 +18,13 @@ async function main() {
         ...cors
     }))
 
-    console.log("Connecting to the database...");
-    if (await pool.connect()) {
-        // Initialise connection events for the pool
-        pool.on('connect', () => {
-            console.log('✅ Connected to the database');
-        });
+    // // Initialise DB connection pool
+    // await pool.connect();
 
-        pool.on('error', (err) => {
-            console.error('Unexpected error on idle client', err);
-            process.exit(-1);
-        });
-    }
+    // if (!pool) {
+    //     console.error("Database connection failed");
+    //     process.exit(-1);
+    // }
 
     app.get("/", (_req: Request, res: Response) => {
         res.send({

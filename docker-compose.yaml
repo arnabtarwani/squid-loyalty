@@ -7,10 +7,4 @@ services:
       POSTGRES_DB: postgres
     ports:
       - 5432:5432
-    networks:
-      - squid_network
     restart: unless-stopped
-
-networks:
-  squid_network:
-    driver: bridge

@@ -19,10 +19,9 @@ To get started with this project, you need to have the following installed on yo
 2. Run the `bash ./scripts/install.sh` script to install to check whether the requirements are available to install the dependencies of the project. If the script doesn't run and you get a permission error, you can run `chmod +x ./scripts/install.sh` to make the script executable.
 3. Run `make install` to initialise the installation process of the backend app.
 4. Once the installation completes, update the DB credentials in the `.env` file if necessary.
-5. Ensure you have the database running, run `make migrate-up` to ensure the migrations and sql scripts have been applied successfully.
-6. Run `make dev` to start the pnpm project. This will start the server on `http://localhost:4000`.
-7. Once the server is up and running, open another terminal instance and make a `curl` request to the server to test the endpoint `/discovery`.
-8. To run the tests, run `make test`.
+5. Run `make dev` to start the pnpm project. This will start the server on `http://localhost:4000`.
+6. Once the server is up and running, open another terminal instance and make a `curl` request to the server to test the endpoint `/discovery`.
+7. To run the tests, run `make test`.
 
 ```bash
 # Example curl request for the discovery endpoint:

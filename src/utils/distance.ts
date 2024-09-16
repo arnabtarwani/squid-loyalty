@@ -1,3 +1,10 @@
+/** 
+ * @function calculateDistance function calculates the distance between two points on the earth's surface.
+ * The function takes four arguments, the latitude and longitude of the first point and the latitude and longitude of the second point.
+ * It returns the distance between the two points in kilometers. The function uses the Haversine formula to calculate the distance.
+*/
+
+// Reference: https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
 export const calculateDistance = (lat1: number, long1: number, lat2: number, long2: number) => {
     const R = 6371; // KM radius of the earth
     const deg2RadLat = lat1 * Math.PI / 180;

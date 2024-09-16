@@ -41,6 +41,7 @@ async function main() {
     });
 }
 
+// Start the server and connect to the database
 main().then(async () => {
 
     if (await pool.connect()) {
@@ -52,3 +53,5 @@ main().then(async () => {
     console.error("Error starting the server", error);
     process.exit(-1);
 });
+
+export { main };

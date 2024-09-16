@@ -14,4 +14,4 @@ install:
 .PHONY:
 dev: 
 	@echo "Running the project..." && \
-	docker compose up -d && pnpm dev
+	pnpm dev

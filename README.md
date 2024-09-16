@@ -16,7 +16,7 @@ To get started with this project, you need to have the following installed on yo
 ### Setup
 
 1. Clone the repository
-2. Run the `./scripts/install.sh` script to install to check whether the requirements are available to install the dependencies of the project.
+2. Run the `bash ./scripts/install.sh` script to install to check whether the requirements are available to install the dependencies of the project. If the script doesn't run and you get a permission error, you can run `chmod +x ./scripts/install.sh` to make the script executable.
 3. Run `make install` to initialise the installation process of the backend app.
 4. Once the installation completes, update the DB credentials in the `.env` file if necessary.
 5. Ensure you have the database running, run `make migrate-up` to ensure the migrations and sql scripts have been applied successfully.
@@ -26,7 +26,9 @@ To get started with this project, you need to have the following installed on yo
 
 ```bash
 # Example curl request for the discovery endpoint:
-curl -X GET http://localhost:4000/discovery\?lat\=50\&long\=74.0060\&limit\=3\&type\=Restaurant | jq .
+curl -X GET http://localhost:4000/discovery\?lat\=50\&long\=74.0060 | jq .
+curl -X GET http://localhost:4000/discovery\?lat\=50\&long\=74.0060\&limit\=3 | jq .
+curl -X GET http://localhost:4000/discovery\?lat\=50\&long\=74.0060\&limit\=3\&type\=Cafe | jq .
 ```
 
 ### FAQs
@@ -35,3 +37,8 @@ curl -X GET http://localhost:4000/discovery\?lat\=50\&long\=74.0060\&limit\=3\&t
 - Why postgres? Just a design decision, Postgres provides better efficiency and performance compared to other relational databases. Also, it's a popular choice for most projects.
 - Why Migrate? Migrate is a tool for managing changes to a database schema. It's like a version control system for your database. I could've used Prisma or TypeORM for the migrations but since the requirement is to keep it simple, I decided to use Migrate.
 - Why Direnv? Direnv is a shell extension that loads or unloads environment variables depending on the current directory. It's a good practice to keep sensitive information in a `.env` file and load it into the shell using Direnv. You can also use the `source` command to load the environment variables from the `.env` file into the shell.
+
+### Improvements
+
+- Test coverage can be improved by adding more test cases to cover all the scenarios.
+- Add more error handling to the codebase. Currently, the error handling is minimal as the focus was on the core functionality.

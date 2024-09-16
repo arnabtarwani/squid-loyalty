@@ -16,22 +16,6 @@ else
   echo 'Direnv is already installed'
 fi
 
-# Check if docker is installed, otherwise install it
-if ! [ -x "$(command -v docker)" ]; then
-  echo 'Error: docker is not installed.' >&2
-  brew cask install docker
-else 
-  echo 'Docker is already installed'
-fi
-
-# check if docker-compose is installed, otherwise install it
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo 'Error: docker-compose is not installed.' >&2
-  brew install docker-compose
-else 
-  echo 'docker-compose is already installed'
-fi
-
 # check if Migrate is installed, otherwise install it
 if ! [ -x "$(command -v migrate)" ]; then
   echo 'Error: Migrate is not installed.' >&2

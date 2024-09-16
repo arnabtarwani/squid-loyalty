@@ -4,7 +4,7 @@
   "author": "Arnab Tarwani <arnab.tarwani@gmail.com>",
   "main": "tsx src/server.ts",
   "scripts": {
-    "dev": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts ",
     "dev:build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -34,6 +34,7 @@
     "@babel/preset-env": "^7.25.4",
     "babel-jest": "^29.7.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "pg": "^8.12.0"
   }

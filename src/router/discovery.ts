@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { calculateDistance } from "../utils/distance";
 import { IDistanceDbRecord } from "../utils/types";
-import { pool } from "../db/database";
+import { pool } from "../server";
+import { executeQuery } from "../db/database";
 
 /**
  * @function discoveryHandler for the discovery endpoint that returns a list of businesses sorted by distance
@@ -48,7 +49,11 @@ export const discoveryHandler = async (req: Request, res: Response) => {
             values.push(queryObject?.type);
         }
 
-        const { rows } = await pool.query(dbQuery, values)
+        const rows = await executeQuery(pool, dbQuery, values);
+
+        if (rows.length > 0) {
+            pool.emit("release");
+        }
 
         const businesses = rows.map((business: IDistanceDbRecord) => {
             return {

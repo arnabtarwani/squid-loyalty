@@ -1,13 +1,23 @@
 import express, { Request, Response } from 'express';
 import { discoveryHandler } from './router';
 import cors from 'cors';
-import { pool } from './db/database';
+import { dbConnection } from './db/database';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+// Initialise DB connection pool
+export const pool = dbConnection({
+    dbUser: process.env.DB_USER,
+    dbHost: process.env.DB_HOST,
+    dbName: process.env.DB_NAME,
+    dbPass: process.env.DB_PASSWORD,
+    dbPort: Number(process.env.DB_PORT)
+});
 
 // The main function that starts the server
-
-const PORT = process.env.PORT || 4000;
-
 async function main() {
+    const PORT = process.env.PORT || 4000;
     const app = express();
 
     app.use(express.json());
@@ -17,14 +27,6 @@ async function main() {
         methods: ["GET"],
         ...cors
     }))
-
-    // // Initialise DB connection pool
-    // await pool.connect();
-
-    // if (!pool) {
-    //     console.error("Database connection failed");
-    //     process.exit(-1);
-    // }
 
     app.get("/", (_req: Request, res: Response) => {
         res.send({
@@ -39,7 +41,12 @@ async function main() {
     });
 }
 
-main().then(() => {
+main().then(async () => {
+
+    if (await pool.connect()) {
+        console.log("Database connected successfully");
+    }
+
     console.log("Server started successfully");
 }).catch((error) => {
     console.error("Error starting the server", error);

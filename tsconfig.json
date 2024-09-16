@@ -22,5 +22,10 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ESNext"
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.d.ts",
+    "**/*.spec.ts"
+  ]
 }

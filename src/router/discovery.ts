@@ -51,10 +51,6 @@ export const discoveryHandler = async (req: Request, res: Response) => {
 
         const rows = await executeQuery(pool, dbQuery, values);
 
-        if (rows.length > 0) {
-            pool.emit("release");
-        }
-
         const businesses = rows.map((business: IDistanceDbRecord) => {
             return {
                 ...business,

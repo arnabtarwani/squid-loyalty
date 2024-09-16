@@ -55,3 +55,11 @@ if ! [ -x "$(command -v pnpm)" ]; then
 else 
   echo 'pnpm is already installed'
 fi
+
+# check if jq is installed, otherwise install it
+if ! [ -x "$(command -v jq)" ]; then
+  echo 'Error: jq is not installed.' >&2
+  brew install jq
+else 
+  echo 'jq is already installed'
+fi

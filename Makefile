@@ -1,20 +1,15 @@
-.PHONY:
-db-init:
-	@echo "Initializing the database..." && \ 
-	export POSTGRESQL_URL='postgresql://user:password@100.69.220.19:5432/postgres?sslmode=disable' && \ 
-	migrate -database ${POSTGRESQL_URL} -path db/migrations up && \ 
-	@echo "✅ Migration complete!"
+DIR := $(PWD)
+export POSTGRESQL_URL=postgresql://user:password@localhost:5432/postgres?sslmode=disable
 
 .PHONY:
 install: 
-	@echo "Installing dependencies..." && \
+	@echo "Setting up the project..." && \
 	direnv allow && \
 	cp .env.example .env && \
-	docker compose up -d && \
-	export POSTGRESQL_URL='postgresql://user:password@100.69.220.19:5432/postgres?sslmode=disable' && \ 
-	@echo migrate -database ${POSTGRESQL_URL} -path db/migrations up && \
+	docker compose up -d 
+	migrate -database ${POSTGRESQL_URL} -path ${DIR}/db/migrations up
+	@echo "Installing dependencies..." && \
 	pnpm install
-	@echo "✅ Done!"
 
 .PHONY:
 dev: 

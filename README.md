@@ -21,7 +21,7 @@ To get started with this project, you need to have the following installed on yo
 4. Once the installation completes, update the DB credentials in the `.env` file if necessary.
 5. Ensure you have the database running, run `make migrate-up` to ensure the migrations and sql scripts have been applied successfully.
 6. Run `make dev` to start the pnpm project. This will start the server on `http://localhost:4000`.
-7. Once the server is up and running, you can make `curl` requests to the server to test the endpoints.
+7. Once the server is up and running, open another terminal instance and make a `curl` request to the server to test the endpoint `/discovery`.
 8. To run the tests, run `make test`.
 
 ```bash
